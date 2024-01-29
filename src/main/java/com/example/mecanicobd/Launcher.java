@@ -10,9 +10,9 @@ import java.io.IOException;
 public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException, ClassNotFoundException {
-        Conexion con = new Conexion();
-        con.conectar();
-        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("hello-view.fxml"));
+        Connection con = new Connection();
+        con.connect();
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("home.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Hello!");
         stage.setScene(scene);
