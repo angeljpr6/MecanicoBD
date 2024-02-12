@@ -1,5 +1,6 @@
 package com.example.mecanicobd;
 
+import com.example.mecanicobd.model.Connections;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,10 +11,10 @@ import java.io.IOException;
 public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException, ClassNotFoundException {
-        Connection con = new Connection();
+        Connections con = new Connections();
         con.connect();
-        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("home.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("log-in.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();

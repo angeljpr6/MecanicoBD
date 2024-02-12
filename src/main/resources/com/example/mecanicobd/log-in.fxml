@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mecanicobd.LogIn">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mecanicobd.view.LogIn">
    <children>
       <Label layoutX="231.0" layoutY="58.0" text="Iniciar Sesion">
          <font>
@@ -13,7 +14,11 @@
          </font>
       </Label>
       <Label layoutX="14.0" layoutY="14.0" text="Administrador" />
-      <Label layoutX="155.0" layoutY="111.0" text="Nombre" />
-      <Label layoutX="155.0" layoutY="158.0" text="Administrador" />
+      <Label layoutX="155.0" layoutY="111.0" text="Telefono" />
+      <Label layoutX="155.0" layoutY="158.0" text="ID" />
+      <TextField fx:id="phoneField" layoutX="253.0" layoutY="107.0" />
+      <TextField fx:id="idField" layoutX="253.0" layoutY="154.0" />
+      <Label fx:id="dataError" layoutX="216.0" layoutY="192.0" text="Usuario o contraseña incorrecto" textFill="RED" visible="false" />
+      <Button layoutX="276.0" layoutY="234.0" mnemonicParsing="false" onAction="#logIn" text="Iniciar" />
    </children>
 </Pane>
