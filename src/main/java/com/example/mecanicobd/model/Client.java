@@ -31,7 +31,8 @@ public class Client {
     public static ArrayList<Client> allClient(){
         ArrayList<Client> clients = new ArrayList<>();
 
-        String sentenciaSql = "SELECT * from clientes" ;
+        String sentenciaSql = "SELECT idcliente, (persona).nombre, (persona).direccion.calle, (persona).direccion.num," +
+                "(persona).direccion.ciudad, (persona).direccion.cp, tlf from clientes" ;
         PreparedStatement sentencia = null;
         ResultSet resultado = null;
         try {
@@ -42,21 +43,43 @@ public class Client {
 
             while (resultado!=null){
 
-                int id = resultado.getInt("id");
-                String name = resultado.getString("nombre");
-                String street = resultado.getString("nombre");;
-                int num;
-                String city;
-                String cp;
-                String phoneNumber;
+                int id = resultado.getInt(1);
+                String name = resultado.getString(2);
+                String street = resultado.getString(3);
+                int num = resultado.getInt(4);
+                String city = resultado.getString(5);
+                String cp = resultado.getString(6);
+                String phoneNumber = resultado.getString(7);
+
+                clients.add(new Client(id,name,street,num,city,cp,phoneNumber));
+
+                resultado.next();
 
             }
-
 
         } catch (SQLException e) {
             System.out.println("Error");
         }
 
         return clients;
+    }
+
+    public void deleteClient(){
+        String sentenciaSql = "delete from clientes where idcliente = ?" ;
+        PreparedStatement sentencia = null;
+
+        try {
+
+            sentencia = con.prepareStatement(sentenciaSql);
+            sentencia.setInt( 1, this.id);
+            sentencia.executeQuery();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateClient(){
+
     }
 }
