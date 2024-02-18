@@ -65,21 +65,20 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Pane fx:id="repairsPane" prefHeight="543.0" prefWidth="858.0" style="-fx-background-color: white;" visible="false">
+      <Pane fx:id="repairsPane" prefHeight="543.0" prefWidth="858.0" style="-fx-background-color: white;">
          <children>
             <TableView fx:id="tableMechanic" layoutX="229.0" layoutY="40.0" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="idMechanic" prefWidth="63.0" text="ID" />
-                <TableColumn fx:id="nameMechanic" prefWidth="136.0" text="Nombre" />
+                <TableColumn fx:id="idMechanicColumn" prefWidth="63.0" text="ID" />
+                <TableColumn fx:id="nameMechaniColumn" prefWidth="136.0" text="Nombre" />
               </columns>
             </TableView>
             <TableView fx:id="tableLicensePlate" layoutX="564.0" layoutY="40.0" prefHeight="200.0" prefWidth="142.0">
               <columns>
-                <TableColumn fx:id="licensePlate" prefWidth="143.0" text="Matricula" />
+                <TableColumn fx:id="licensePlateColumn" prefWidth="143.0" text="Matricula" />
               </columns>
             </TableView>
-            <TextField fx:id="idMechanicServ" layoutX="274.0" layoutY="289.0" promptText="Id del Mecanico" />
-            <TextField fx:id="LicenPlateServ" layoutX="274.0" layoutY="332.0" promptText="Matricula" />
+            <TextField fx:id="licenPlateServ" layoutX="266.0" layoutY="314.0" promptText="Matricula" />
             <Label layoutX="621.0" layoutY="281.0" text="Servicio" />
             <TextField fx:id="serviceDescrip" layoutX="567.0" layoutY="314.0" promptText="Descripcion" />
             <TextField fx:id="serviceCost" layoutX="567.0" layoutY="345.0" promptText="Coste" />
@@ -95,6 +94,19 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
+            <Label layoutX="294.0" layoutY="14.0" text="Mecanicos">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="603.0" layoutY="14.0" text="Vehiculos">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="repairDate" layoutX="266.0" layoutY="345.0" promptText="Fecha" />
+            <Label fx:id="serviceCreated" layoutX="408.0" layoutY="477.0" text="Servicio asignado correctamente" textFill="#0078ff" visible="false" />
+            <Label fx:id="serviceError" layoutX="426.0" layoutY="477.0" text="Error al insertar el servicio" textFill="RED" visible="false" />
          </children>
       </Pane>
    </children>

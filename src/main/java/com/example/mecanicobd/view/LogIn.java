@@ -36,11 +36,11 @@ public class LogIn {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/mecanicobd/home.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
-        Stage crearCuentaStage = new Stage();
-        crearCuentaStage.setTitle("Home");
-        crearCuentaStage.setResizable(false);
-        crearCuentaStage.setScene(scene);
-        crearCuentaStage.show();
+        Stage homeStage = new Stage();
+        homeStage.setTitle("Home");
+        homeStage.setResizable(false);
+        homeStage.setScene(scene);
+        homeStage.show();
 
         Stage myStage = (Stage) this.idField.getScene().getWindow();
         myStage.close();

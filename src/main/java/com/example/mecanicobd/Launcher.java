@@ -13,7 +13,7 @@ public class Launcher extends Application {
     public void start(Stage stage) throws IOException, ClassNotFoundException {
         Connections con = new Connections();
         con.connect();
-        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("log-in.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("home.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
         stage.setScene(scene);

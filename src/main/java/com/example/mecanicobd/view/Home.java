@@ -1,6 +1,9 @@
 package com.example.mecanicobd.view;
 
 import com.example.mecanicobd.model.Client;
+import com.example.mecanicobd.model.Mechanic;
+import com.example.mecanicobd.model.Service;
+import com.example.mecanicobd.model.Vehicle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +19,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class Home implements Initializable {
@@ -33,6 +39,19 @@ public class Home implements Initializable {
     public Label repareLabel;
     public Pane repairsPane;
     public Label clientLabel1;
+    public TableView tableMechanic;
+    public TableColumn<Mechanic, Integer> idMechanicColumn;
+    public TableColumn<Mechanic, String> nameMechaniColumn;
+
+    public TableView tableLicensePlate;
+    public TableColumn<Vehicle, String> licensePlateColumn;
+    public TextField licenPlateServ;
+    public TextField serviceDescrip;
+    public TextField serviceCost;
+    public TextField serviceHour;
+    public TextField repairDate;
+    public Label serviceCreated;
+    public Label serviceError;
 
     @FXML
     private TableColumn<Client, Integer> idColumn = new TableColumn<>("ID");
@@ -62,11 +81,17 @@ public class Home implements Initializable {
     private Client client = null;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        configureColumnProperties();
+        configureClientsColumnProperties();
         uploadClientTable();
+
+        configureMechanicsColumnProperties();
+        uploadMechanicTable();
+
+        configureVehiclesColumnProperties();
+        uploadVehiclesTable();
     }
 
-    private void configureColumnProperties() {
+    private void configureClientsColumnProperties() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nombreColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         calleColumn.setCellValueFactory(new PropertyValueFactory<>("street"));
@@ -74,6 +99,24 @@ public class Home implements Initializable {
         ciudadColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
         codPostalColumn.setCellValueFactory(new PropertyValueFactory<>("cp"));
         telfColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+    }
+
+    public void configureMechanicsColumnProperties(){
+        idMechanicColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameMechaniColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+    }
+
+    public void configureVehiclesColumnProperties(){
+        licensePlateColumn.setCellValueFactory(new PropertyValueFactory<>("licensePlate"));
+    }
+
+    public void uploadVehiclesTable(){
+        ObservableList<Vehicle> vehiclesList = FXCollections.observableArrayList();
+        ArrayList<Vehicle> vehicles = Vehicle.allVehicles();
+
+        vehiclesList.addAll(vehicles);
+
+        tableLicensePlate.setItems(vehiclesList);
     }
 
     public void uploadClientTable(){
@@ -86,6 +129,15 @@ public class Home implements Initializable {
         tablaClientes.setItems(clientsList);
         tablaClientes.refresh();
         editPane.setVisible(false);
+    }
+
+    public void uploadMechanicTable(){
+        ObservableList<Mechanic> mechanicsList = FXCollections.observableArrayList();
+        ArrayList<Mechanic> mechanics = Mechanic.allMechanics();
+
+        mechanicsList.addAll(mechanics);
+
+        tableMechanic.setItems(mechanicsList);
     }
 
     public void editData(ActionEvent actionEvent) {
@@ -179,6 +231,39 @@ public class Home implements Initializable {
         return dataCorrect;
     }
 
+    public boolean verifyDataNewService(){
+        boolean dataCorrect = true;
+
+        if (!Vehicle.existVehicle(licenPlateServ.getText())) {
+            dataCorrect = false;
+        }
+
+        if (serviceDescrip.getText().equals("")){
+            dataCorrect = false;
+        }
+
+        if (!serviceCost.getText().matches("\\d+(\\.\\d+)?") || !serviceHour.getText().matches("\\d+(\\.\\d+)?")){
+            dataCorrect = false;
+        }
+
+        try {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            java.util.Date utilDate = dateFormat.parse(repairDate.getText());
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+            // Imprime la fecha resultante
+            System.out.println("Fecha SQL convertida: " + sqlDate);
+
+        } catch (ParseException e) {
+            dataCorrect = false;
+            System.out.println("Error al convertir la cadena a fecha: " + e.getMessage());
+        }
+
+        return dataCorrect;
+    }
+
     public void backNewClient(ActionEvent actionEvent) {
         uploadClientTable();
         newClientPane.setVisible(false);
@@ -196,7 +281,22 @@ public class Home implements Initializable {
         repareLabel.setCursor(Cursor.DEFAULT);
     }
 
-    public void assignService(ActionEvent actionEvent) {
+    public void assignService(ActionEvent actionEvent) throws ParseException {
+        serviceCreated.setVisible(false);
+        serviceError.setVisible(false);
+        if (verifyDataNewService()){
+            Service service = new Service(serviceDescrip.getText(),Float.parseFloat(serviceCost.getText()),Float.parseFloat(serviceHour.getText()));
+            service.insertService();
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            java.util.Date utilDate = dateFormat.parse(repairDate.getText());
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+            Service.insertRepair(Service.idLastService(),licenPlateServ.getText(), sqlDate);
+
+            serviceCreated.setVisible(true);
+        }else serviceError.setVisible(true);
     }
 
     public void changeToClient(MouseEvent mouseEvent) {
