@@ -1,35 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="543.0" prefWidth="858.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mecanicobd.view.Home">
    <children>
-      <TableView fx:id="tablaClientes" layoutX="166.0" layoutY="52.0" onSort="#openEditPane" prefHeight="241.0" prefWidth="527.0">
-        <columns>
-          <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
-          <TableColumn fx:id="nombreColumn" prefWidth="75.0" text="Nombre" />
+      <Pane fx:id="editPane" layoutX="176.0" layoutY="302.0" prefHeight="212.0" prefWidth="514.0" style="-fx-border-color: black; -fx-border-radius: 10px;" visible="false">
+         <children>
+            <TextField fx:id="nombreEditado" layoutX="92.0" layoutY="42.0" promptText="Nombre" />
+            <TextField fx:id="calleEditada" layoutX="92.0" layoutY="79.0" promptText="Calle" />
+            <TextField fx:id="numCalleEditado" layoutX="92.0" layoutY="117.0" promptText="Nº" />
+            <TextField fx:id="ciudadEditada" layoutX="273.0" layoutY="42.0" promptText="Ciudad" />
+            <TextField fx:id="codPostEditado" layoutX="273.0" layoutY="79.0" promptText="CP" />
+            <TextField fx:id="telfEditado" layoutX="273.0" layoutY="117.0" promptText="Tlfn" />
+            <Button layoutX="194.0" layoutY="165.0" mnemonicParsing="false" onAction="#editData" text="Editar" />
+            <Button layoutX="273.0" layoutY="165.0" mnemonicParsing="false" onAction="#deleteClient" text="Eliminar" />
+            <Label layoutX="148.0" layoutY="14.0" text="Introduce los datos que desees modificar" />
+         </children>
+      </Pane>
+      <TableView fx:id="tablaClientes" layoutX="169.0" layoutY="51.0" onMouseClicked="#openEditPane" prefHeight="241.0" prefWidth="527.0">
+         <columns>
+            <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+            <TableColumn fx:id="nombreColumn" prefWidth="75.0" text="Nombre" />
             <TableColumn fx:id="calleColumn" prefWidth="75.0" text="Calle" />
             <TableColumn fx:id="numCalleColumn" prefWidth="75.0" text="Nº" />
             <TableColumn fx:id="ciudadColumn" prefWidth="75.0" text="Ciudad" />
             <TableColumn fx:id="codPostalColumn" prefWidth="75.0" text="CP" />
             <TableColumn fx:id="telfColumn" prefWidth="75.0" text="Tlfn" />
-        </columns>
+         </columns>
       </TableView>
-      <Pane fx:id="editPane" layoutX="175.0" layoutY="317.0" prefHeight="192.0" prefWidth="514.0">
+      <Label fx:id="clientLabel" layoutX="23.0" layoutY="51.0" text="Clientes">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="744.0" layoutY="81.0" mnemonicParsing="false" onAction="#addClient" text="Añadir" />
+      <Pane fx:id="newClientPane" layoutX="126.0" layoutY="42.0" prefHeight="376.0" prefWidth="673.0" style="-fx-background-color: white;" visible="false">
          <children>
-            <TextField fx:id="nombreEditado" layoutX="90.0" layoutY="14.0" promptText="Nombre" />
-            <TextField fx:id="calleEditada" layoutX="90.0" layoutY="51.0" promptText="Calle" />
-            <TextField fx:id="numCalleEditado" layoutX="90.0" layoutY="89.0" promptText="Nº" />
-            <TextField fx:id="ciudadEditada" layoutX="271.0" layoutY="14.0" promptText="Ciudad" />
-            <TextField fx:id="codPostEditado" layoutX="271.0" layoutY="51.0" promptText="CP" />
-            <TextField fx:id="telfEditado" layoutX="271.0" layoutY="89.0" promptText="Tlfn" />
-            <Button layoutX="192.0" layoutY="137.0" mnemonicParsing="false" onAction="#editData" text="Editar" />
-            <Button layoutX="271.0" layoutY="137.0" mnemonicParsing="false" onAction="#deleteClient" text="Eliminar" />
+            <TextField fx:id="nombreNuevo" layoutX="172.0" layoutY="53.0" promptText="Nombre" />
+            <TextField fx:id="calleNueva" layoutX="172.0" layoutY="103.0" promptText="Calle" />
+            <TextField fx:id="numCalleNueva" layoutX="172.0" layoutY="153.0" promptText="Nº" />
+            <TextField fx:id="ciudadNueva" layoutX="353.0" layoutY="53.0" promptText="Ciudad" />
+            <TextField fx:id="codPostNuevo" layoutX="353.0" layoutY="103.0" promptText="CP" />
+            <TextField fx:id="telfNuevo" layoutX="353.0" layoutY="153.0" promptText="Tlfn" />
+            <Button layoutX="353.0" layoutY="251.0" mnemonicParsing="false" onAction="#addNewClient" text="Añadir" />
+            <Button layoutX="274.0" layoutY="251.0" mnemonicParsing="false" onAction="#backNewClient" text="Atras" />
+            <Label fx:id="errorDataNewClient" layoutX="274.0" layoutY="209.0" text="Algun dato no es valido" textFill="RED" visible="false" />
+            <Label layoutX="353.0" layoutY="136.0" text="*Si introduce mas de un telefono separelos solo por &quot;,&quot;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="addedClient" layoutX="295.0" layoutY="218.0" text="Cliente añadido" textFill="#106ed3" visible="false" />
+         </children>
+      </Pane>
+      <Label fx:id="repareLabel" layoutX="23.0" layoutY="91.0" onMouseClicked="#changeToRepairs" onMouseEntered="#changeCursorRepair" onMouseExited="#changeCursorDefault" text="Reparaciones">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Pane fx:id="repairsPane" prefHeight="543.0" prefWidth="858.0" style="-fx-background-color: white;" visible="false">
+         <children>
+            <TableView fx:id="tableMechanic" layoutX="229.0" layoutY="40.0" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="idMechanic" prefWidth="63.0" text="ID" />
+                <TableColumn fx:id="nameMechanic" prefWidth="136.0" text="Nombre" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableLicensePlate" layoutX="564.0" layoutY="40.0" prefHeight="200.0" prefWidth="142.0">
+              <columns>
+                <TableColumn fx:id="licensePlate" prefWidth="143.0" text="Matricula" />
+              </columns>
+            </TableView>
+            <TextField fx:id="idMechanicServ" layoutX="274.0" layoutY="289.0" promptText="Id del Mecanico" />
+            <TextField fx:id="LicenPlateServ" layoutX="274.0" layoutY="332.0" promptText="Matricula" />
+            <Label layoutX="621.0" layoutY="281.0" text="Servicio" />
+            <TextField fx:id="serviceDescrip" layoutX="567.0" layoutY="314.0" promptText="Descripcion" />
+            <TextField fx:id="serviceCost" layoutX="567.0" layoutY="345.0" promptText="Coste" />
+            <TextField fx:id="serviceHour" layoutX="567.0" layoutY="374.0" promptText="Horas" />
+            <Button layoutX="444.0" layoutY="433.0" mnemonicParsing="false" onAction="#assignService" text="Asignar Servicio" />
+            <Label fx:id="clientLabel1" layoutX="23.0" layoutY="51.0" onMouseClicked="#changeToClient" onMouseEntered="#changeCursorClient" onMouseExited="#changeCursorDefault" text="Clientes">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="repareLabel1" layoutX="23.0" layoutY="91.0" text="Reparaciones">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
